@@ -48,9 +48,9 @@ func attack():
 	var instance = red_attack.instantiate()
 	instance.start(
 		position,
-		(get_global_mouse_position() - global_position).normalized(),
-		1 + charge
+		(get_global_mouse_position() - global_position).normalized()
 	)
+	instance.resize(1 + charge)
 	charge = 0
 	get_parent().add_child(instance)
 
