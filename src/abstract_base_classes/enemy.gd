@@ -1,15 +1,14 @@
 extends CharacterBody2D
+class_name Enemy
 
 @export var SPEED = 200
-
-const RE_NAV_TIME = 0.2
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var re_nav_timer: Timer = $NavigationAgent2D/ReNavTimer
 @onready var player: CharacterBody2D = get_tree().current_scene.get_node("player")
 
 func _ready():
-	re_nav_timer.wait_time = RE_NAV_TIME
+	re_nav_timer.timeout.connect(find_path)
 	re_nav_timer.start()
 	find_path()
 
@@ -24,7 +23,3 @@ func _physics_process(_delta):
 
 func find_path():
 	nav_agent.target_position = player.global_position
-
-
-func _on_re_nav_timer_timeout():
-	find_path()
