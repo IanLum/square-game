@@ -1,6 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://d1peiul00opbi"]
+[gd_scene load_steps=5 format=3 uid="uid://d1peiul00opbi"]
 
-[ext_resource type="Script" path="res://src/abstract_base_classes/enemy.gd" id="1_2x0h0"]
+[ext_resource type="Script" path="res://src/enemies/dasher.gd" id="1_q5m6k"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_q5nso"]
 radius = 5.0
@@ -8,10 +8,14 @@ radius = 5.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_6rlvw"]
 radius = 87.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8i8wt"]
+size = Vector2(12, 12)
+
 [node name="dasher" type="CharacterBody2D"]
 motion_mode = 1
 wall_min_slide_angle = 0.0
-script = ExtResource("1_2x0h0")
+script = ExtResource("1_q5m6k")
+SPEED = 100
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_q5nso")
@@ -37,8 +41,21 @@ wait_time = 0.2
 autostart = true
 
 [node name="AttackRadius" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRadius"]
 shape = SubResource("CircleShape2D_6rlvw")
+
+[node name="AttackBox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackBox"]
+shape = SubResource("RectangleShape2D_8i8wt")
+
+[node name="DashTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="body_entered" from="AttackBox" to="." method="_on_attack_box_body_entered"]

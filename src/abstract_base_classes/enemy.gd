@@ -8,13 +8,18 @@ class_name Enemy
 @onready var attack_radius: Area2D = $AttackRadius
 @onready var player: CharacterBody2D = get_tree().current_scene.get_node("player")
 
+var attacking = false
+
 func _ready():
 	re_nav_timer.timeout.connect(find_path)
 	find_path()
 
 
 func _physics_process(_delta):
-	if !attack_radius.get_overlapping_bodies().is_empty():
+	if attacking:
+		return
+	elif not attack_radius.get_overlapping_bodies().is_empty():
+		attacking = true
 		attack()
 	else:
 		var direction = to_local(nav_agent.get_next_path_position()).normalized()
