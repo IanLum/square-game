@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Player
 
 const SPEED = 300
 const ATTACK_SLOW = 0.3
