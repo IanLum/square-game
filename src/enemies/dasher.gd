@@ -15,7 +15,7 @@ func attack():
 	await tween.finished
 	$ColorRect.color = Color.MAGENTA
 	
-	var dir = to_local(nav_agent.get_next_path_position()).normalized()
+	var dir = to_local(player.global_position).normalized()
 	velocity = dir * DASH_SPEED
 	dash_timer.start(Attack_Time.DURATION)
 	await dash_timer.timeout
@@ -37,6 +37,7 @@ func _physics_process(delta):
 		move_and_collide(velocity * delta)
 
 
-func _on_attack_box_body_entered(body):
+func _on_attack_box_body_entered(body: Player):
 	dash_timer.stop()
 	endlag()
+	body.take_damage()

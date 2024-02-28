@@ -59,3 +59,9 @@ func attack():
 func _unhandled_input(event):
 	if event.is_action_pressed("attack"):
 		attack()
+
+
+func take_damage():
+	modulate = Color(0, 0.5)
+	await get_tree().create_timer(0.1).timeout
+	modulate = Color.WHITE
