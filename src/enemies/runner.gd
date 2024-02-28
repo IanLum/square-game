@@ -1,7 +1,8 @@
 extends CharacterBody2D
 
+@export var SPEED = 200
+
 const RE_NAV_TIME = 0.2
-const SPEED = 200
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var re_nav_timer: Timer = $NavigationAgent2D/ReNavTimer
