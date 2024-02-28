@@ -6,6 +6,8 @@ func _ready():
 	queue_free()
 
 
-func start(pos: Vector2, dir: Vector2):
+func start(pos: Vector2, dir: Vector2, charge: float):
 	position = pos
 	look_at(dir)
+	scale.x = charge
+	

@@ -27,3 +27,14 @@ color = Color(1, 0, 0, 1)
 
 [node name="AttackLag" type="Timer" parent="."]
 one_shot = true
+
+[node name="AttackCharge" type="ProgressBar" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -32.0
+offset_top = -21.0
+offset_right = 32.0
+offset_bottom = -13.0
+grow_horizontal = 2
+show_percentage = false
