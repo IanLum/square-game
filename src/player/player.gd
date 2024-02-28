@@ -6,6 +6,7 @@ const ATTACK_TIME = 0.2
 
 const MAX_CHARGE = 1.5
 const CHARGE_TIME = 1
+const CHARGE_SLOW = 0.5
 
 
 @onready var red_attack = preload("res://src/player/red_attack.tscn")
@@ -25,14 +26,19 @@ func _ready():
 
 
 func _physics_process(delta):
-	if Input.is_action_pressed("utility"):
+	var speed_mod = 1
+	
+	if Input.is_action_pressed("utility") and charge != MAX_CHARGE:
 		charge += MAX_CHARGE / CHARGE_TIME * delta
+		speed_mod *= CHARGE_SLOW
+	
+	if !attack_lag.is_stopped():
+		speed_mod *= ATTACK_SLOW
 	
 	var direction = Vector2(
 		Input.get_axis("left", "right"), Input.get_axis("up", "down")
 	).normalized()
-	velocity = direction * SPEED
-	if !attack_lag.is_stopped(): velocity *= ATTACK_SLOW
+	velocity = direction * SPEED * speed_mod
 	move_and_slide()
 
 
