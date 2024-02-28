@@ -1,20 +1,21 @@
 extends CharacterBody2D
 
 const SPEED = 300
-const ATTACK_LAG = 0.1
+const ATTACK_SLOW = 0.3
+const ATTACK_TIME = 0.2
 
 @onready var red_attack = preload("res://src/player/red_attack.tscn")
 @onready var attack_lag = $AttackLag
 
 func _ready():
-	attack_lag.wait_time = ATTACK_LAG
+	attack_lag.wait_time = ATTACK_TIME
 
 func _physics_process(_delta):
-	if !attack_lag.is_stopped(): return
 	var direction = Vector2(
 		Input.get_axis("left", "right"), Input.get_axis("up", "down")
 	).normalized()
 	velocity = direction * SPEED
+	if !attack_lag.is_stopped(): velocity *= ATTACK_SLOW
 	move_and_slide()
 
 func attack():
