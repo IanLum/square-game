@@ -24,3 +24,6 @@ offset_bottom = 8.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 0, 0, 1)
+
+[node name="AttackLag" type="Timer" parent="."]
+one_shot = true

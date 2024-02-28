@@ -1,23 +1,23 @@
-[gd_scene load_steps=2 format=3 uid="uid://eskc0k0egxjt"]
+[gd_scene load_steps=3 format=3 uid="uid://eskc0k0egxjt"]
+
+[ext_resource type="Script" path="res://src/player/red_attack.gd" id="1_8cutm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mflq1"]
-size = Vector2(24, 36)
+size = Vector2(36, 24)
 
 [node name="red_attack" type="Area2D"]
+script = ExtResource("1_8cutm")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -18)
+position = Vector2(18, 0)
 shape = SubResource("RectangleShape2D_mflq1")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -12.0
-offset_top = -36.0
-offset_right = 12.0
-grow_horizontal = 2
-grow_vertical = 0
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -12.0
+offset_right = 36.0
+offset_bottom = 12.0
+grow_vertical = 2
 color = Color(1, 0, 0, 1)
