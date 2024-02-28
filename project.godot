@@ -58,3 +58,8 @@ utility={
 [layer_names]
 
 2d_physics/layer_1="TERRAIN"
+2d_navigation/layer_1="WALKABLE"
+
+[navigation]
+
+2d/default_edge_connection_margin=32
