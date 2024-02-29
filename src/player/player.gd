@@ -124,27 +124,33 @@ func attack():
 
 func red_attack():
 	attack_lag.start(RED_ATTACK.DURATION)
-	var instance: Attack = red_attack_scene.instantiate()
-	instance.start(
-		position,
-		(get_global_mouse_position() - global_position).normalized()
+	var instance = spawn_attack(
+		red_attack_scene,
+		RED_ATTACK.FIELD_TIME
 	)
 	instance.resize(1 + charge)
-	instance.field_time = RED_ATTACK.FIELD_TIME
 	charge = 0
 	get_parent().add_child(instance)
 
 
 func blue_attack():
 	attack_lag.start(BLUE_ATTACK.DURATION)
-	var instance: Attack = blue_attack_scene.instantiate()
+	var instance = spawn_attack(
+		blue_attack_scene,
+		BLUE_ATTACK.FIELD_TIME
+	)
+	instance.SPEED = BLUE_ATTACK.SPEED
+	get_parent().add_child(instance)
+
+
+func spawn_attack(scene, field_time: float):
+	var instance: Attack = scene.instantiate()
 	instance.start(
 		position,
 		(get_global_mouse_position() - global_position).normalized()
 	)
-	instance.field_time = BLUE_ATTACK.FIELD_TIME
-	instance.SPEED = BLUE_ATTACK.SPEED
-	get_parent().add_child(instance)
+	instance.field_time = field_time
+	return instance
 
 
 func dash():
