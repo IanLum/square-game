@@ -17,6 +17,10 @@ const CHARGE_SLOW = 0.5
 @onready var health = MAX_HEALTH: set = _set_health
 var charge = 0: set = _set_charge
 
+
+## --- SETTERS ---
+
+
 func _set_health(new_health):
 	health = clamp(new_health, 0, MAX_HEALTH)
 	var hbox = $ui/HBoxContainer
@@ -28,26 +32,53 @@ func _set_charge(new_charge):
 	charge_bar.value = charge
 
 
+## --- CORE FUNCTIONS ---
+
+
 func _ready():
 	attack_lag.wait_time = ATTACK_TIME
 	charge_bar.max_value = MAX_CHARGE
 
 
 func _physics_process(delta):
-	var speed_mod = 1
-	
+	var charging = handle_charge(delta)
+	var slowdown = handle_slowdown(charging)
+	handle_movement(slowdown)
+
+
+## --- INPUT HANDLING ---
+
+
+func handle_charge(delta) -> bool:
 	if Input.is_action_pressed("utility") and charge != MAX_CHARGE:
 		charge += MAX_CHARGE / CHARGE_TIME * delta
+		return true
+	return false
+
+
+func handle_slowdown(charging: bool) -> float:
+	var speed_mod = 1
+	if charging:
 		speed_mod *= CHARGE_SLOW
-	
 	if !attack_lag.is_stopped():
 		speed_mod *= ATTACK_SLOW
-	
+	return speed_mod
+
+
+func handle_movement(slowdown: float):
 	var direction = Vector2(
 		Input.get_axis("left", "right"), Input.get_axis("up", "down")
 	).normalized()
-	velocity = direction * SPEED * speed_mod
+	velocity = direction * SPEED * slowdown
 	move_and_slide()
+
+
+func _unhandled_input(event):
+	if event.is_action_pressed("attack"):
+		attack()
+
+
+## --- COMBAT ---
 
 
 func attack():
@@ -62,11 +93,6 @@ func attack():
 	instance.field_time = 0.1
 	charge = 0
 	get_parent().add_child(instance)
-
-
-func _unhandled_input(event):
-	if event.is_action_pressed("attack"):
-		attack()
 
 
 func take_damage(damage: int):
