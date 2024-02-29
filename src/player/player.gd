@@ -6,7 +6,15 @@ const SPEED = 300
 
 const RED_ATTACK = {
 	SLOWDOWN = 0.3,
-	DURATION = 0.2
+	DURATION = 0.2,
+	FIELD_TIME = 0.1
+}
+
+const BLUE_ATTACK = {
+	SLOWDOWN = 0.3,
+	DURATION = 0.4,
+	SPEED = 300,
+	FIELD_TIME = 0.5
 }
 
 const CHARGE = {
@@ -22,6 +30,7 @@ const DASH = {
 }
 
 @onready var red_attack_scene = preload("res://src/player/red_attack.tscn")
+@onready var blue_attack_scene = preload("res://src/player/blue_attack.tscn")
 @onready var attack_lag = $Timers/AttackLag
 @onready var dash_cd = $Timers/DashCooldown
 @onready var dash_timer = $Timers/DashTimer
@@ -121,13 +130,21 @@ func red_attack():
 		(get_global_mouse_position() - global_position).normalized()
 	)
 	instance.resize(1 + charge)
-	instance.field_time = 0.1
+	instance.field_time = RED_ATTACK.FIELD_TIME
 	charge = 0
 	get_parent().add_child(instance)
 
 
 func blue_attack():
-	pass
+	attack_lag.start(BLUE_ATTACK.DURATION)
+	var instance: Attack = blue_attack_scene.instantiate()
+	instance.start(
+		position,
+		(get_global_mouse_position() - global_position).normalized()
+	)
+	instance.field_time = BLUE_ATTACK.FIELD_TIME
+	instance.SPEED = BLUE_ATTACK.SPEED
+	get_parent().add_child(instance)
 
 
 func dash():
