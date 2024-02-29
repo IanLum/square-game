@@ -3,16 +3,13 @@
 [ext_resource type="Script" path="res://src/player/player.gd" id="1_beyo2"]
 [ext_resource type="PackedScene" uid="uid://hhfchlxg4hc6" path="res://src/display/ui.tscn" id="2_m116u"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_saue7"]
-size = Vector2(16, 16)
+[sub_resource type="CircleShape2D" id="CircleShape2D_xk1da"]
+radius = 6.0
 
 [node name="player" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_beyo2")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_saue7")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 8
@@ -27,6 +24,9 @@ offset_bottom = 8.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 0, 0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_xk1da")
 
 [node name="AttackLag" type="Timer" parent="."]
 one_shot = true
