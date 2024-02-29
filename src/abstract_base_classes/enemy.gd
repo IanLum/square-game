@@ -9,8 +9,9 @@ class_name Enemy
 @onready var attack_radius: Area2D = $AttackRadius
 @onready var player: CharacterBody2D = get_tree().current_scene.get_node("player")
 
-var health = MAX_HEALTH
+@onready var health = MAX_HEALTH
 var attacking = false
+var dead = false
 
 func _ready():
 	re_nav_timer.timeout.connect(find_path)
@@ -18,7 +19,7 @@ func _ready():
 
 
 func _physics_process(_delta):
-	if attacking:
+	if dead or attacking:
 		return
 	elif not attack_radius.get_overlapping_bodies().is_empty():
 		attacking = true
@@ -39,5 +40,8 @@ func attack():
 
 func take_damage(damage: int):
 	health -= damage
-	print('aaa')
-	modulate = Color(10,10,10,10)
+	if health <= 0: die()
+
+
+func die():
+	queue_free()
