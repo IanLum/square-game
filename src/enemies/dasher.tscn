@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://d1peiul00opbi"]
+[gd_scene load_steps=6 format=3 uid="uid://d1peiul00opbi"]
 
 [ext_resource type="Script" path="res://src/enemies/dasher.gd" id="1_q5m6k"]
+[ext_resource type="PackedScene" uid="uid://b33ct127hnjpg" path="res://src/abstract_base_classes/enemy.tscn" id="1_v0j24"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_q5nso"]
 radius = 5.0
@@ -11,18 +12,17 @@ radius = 87.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8i8wt"]
 size = Vector2(12, 12)
 
-[node name="dasher" type="CharacterBody2D"]
-collision_layer = 4
-collision_mask = 3
-motion_mode = 1
-wall_min_slide_angle = 0.0
+[node name="dasher" type="Node2D"]
+
+[node name="enemy" parent="." instance=ExtResource("1_v0j24")]
 script = ExtResource("1_q5m6k")
 SPEED = 100
+MAX_HEALTH = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy"]
 shape = SubResource("CircleShape2D_q5nso")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="enemy"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -36,28 +36,22 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(1, 0, 1, 1)
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-
-[node name="Timer" type="Timer" parent="NavigationAgent2D"]
-wait_time = 0.2
-autostart = true
-
-[node name="AttackRadius" type="Area2D" parent="."]
+[node name="AttackRadius" type="Area2D" parent="enemy"]
 visible = false
 collision_layer = 0
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackRadius"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy/AttackRadius"]
 shape = SubResource("CircleShape2D_6rlvw")
 
-[node name="AttackBox" type="Area2D" parent="."]
+[node name="AttackBox" type="Area2D" parent="enemy"]
 collision_layer = 0
 collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackBox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy/AttackBox"]
 shape = SubResource("RectangleShape2D_8i8wt")
 
-[node name="DashTimer" type="Timer" parent="."]
+[node name="DashTimer" type="Timer" parent="enemy"]
 one_shot = true
 
-[connection signal="body_entered" from="AttackBox" to="." method="_on_attack_box_body_entered"]
+[connection signal="body_entered" from="enemy/AttackBox" to="enemy" method="_on_attack_box_body_entered"]

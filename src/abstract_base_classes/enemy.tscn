@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://b33ct127hnjpg"]
+
+[node name="enemy" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 3
+motion_mode = 1
+wall_min_slide_angle = 0.0
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[node name="Timer" type="Timer" parent="NavigationAgent2D"]
+wait_time = 0.2
+autostart = true
