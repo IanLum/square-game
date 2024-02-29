@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://ctciru3hupije"]
+[gd_scene load_steps=7 format=3 uid="uid://ctciru3hupije"]
 
 [ext_resource type="Script" path="res://src/enemies/dasher.gd" id="1_q5m6k"]
 [ext_resource type="PackedScene" uid="uid://b33ct127hnjpg" path="res://src/abstract_base_classes/enemy.tscn" id="1_v0j24"]
+[ext_resource type="Script" path="res://src/abstract_base_classes/attack.gd" id="3_oulo6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_q5nso"]
 radius = 5.0
@@ -47,7 +48,8 @@ shape = SubResource("CircleShape2D_6rlvw")
 [node name="AttackBox" type="Area2D" parent="enemy"]
 collision_layer = 0
 collision_mask = 2
-monitoring = false
+script = ExtResource("3_oulo6")
+DAMAGE = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="enemy/AttackBox"]
 shape = SubResource("RectangleShape2D_8i8wt")
@@ -55,4 +57,4 @@ shape = SubResource("RectangleShape2D_8i8wt")
 [node name="DashTimer" type="Timer" parent="enemy"]
 one_shot = true
 
-[connection signal="body_entered" from="enemy/AttackBox" to="enemy" method="_on_attack_box_body_entered"]
+[connection signal="hit" from="enemy/AttackBox" to="enemy" method="_on_attack_box_hit"]

@@ -8,6 +8,12 @@ const Attack_Time = {
 }
 
 @onready var dash_timer = $DashTimer
+@onready var attack_box: Attack = $AttackBox
+
+func _ready():
+	super()
+	attack_box.disable()
+
 
 func attack():
 	var tween = create_tween()
@@ -16,16 +22,16 @@ func attack():
 	$ColorRect.color = Color.MAGENTA
 	
 	var dir = to_local(player.global_position).normalized()
-	$AttackBox.set_deferred("monitoring", true)
 	velocity = dir * DASH_SPEED
 	dash_timer.start(Attack_Time.DURATION)
+	attack_box.enable()
 	await dash_timer.timeout
 	
 	endlag()
 
 
 func endlag():
-	$AttackBox.set_deferred("monitoring", false)
+	attack_box.disable()
 	velocity = Vector2.ZERO
 	await get_tree().create_timer(Attack_Time.ENDLAG).timeout
 	attacking = false
@@ -37,7 +43,6 @@ func _physics_process(delta):
 		move_and_collide(velocity * delta)
 
 
-func _on_attack_box_body_entered(body: Player):
+func _on_attack_box_hit(_body):
 	dash_timer.stop()
 	endlag()
-	body.take_damage(1)
