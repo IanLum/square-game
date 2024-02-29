@@ -53,12 +53,13 @@ func _physics_process(delta):
 func attack():
 	if !attack_lag.is_stopped(): return
 	attack_lag.start()
-	var instance = red_attack.instantiate()
+	var instance: Attack = red_attack.instantiate()
 	instance.start(
 		position,
 		(get_global_mouse_position() - global_position).normalized()
 	)
 	instance.resize(1 + charge)
+	instance.field_time = 0.1
 	charge = 0
 	get_parent().add_child(instance)
 

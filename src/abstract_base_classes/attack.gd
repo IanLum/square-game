@@ -1,13 +1,14 @@
 extends Area2D
 class_name Attack
 
-@export var DURATION: float
 @export var DAMAGE: int
+var field_time = 0
 
 func _ready():
 	body_entered.connect(_on_body_entered)
-	await get_tree().create_timer(DURATION).timeout
-	queue_free()
+	if field_time:
+		await get_tree().create_timer(field_time).timeout
+		queue_free()
 
 
 func start(pos: Vector2, dir: Vector2):
