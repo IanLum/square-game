@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://7e6rh6e217m4" path="res://assets/tilemap.png" id="1_gmm0g"]
 [ext_resource type="PackedScene" uid="uid://cec8srgilxgmp" path="res://src/player/player.tscn" id="1_x1ik4"]
-[ext_resource type="PackedScene" uid="uid://d2sv6qqgckxxa" path="res://src/autoload/game_camera.tscn" id="3_c2bn4"]
+[ext_resource type="PackedScene" uid="uid://d2sv6qqgckxxa" path="res://src/display/game_camera.tscn" id="3_c2bn4"]
 [ext_resource type="PackedScene" uid="uid://d1peiul00opbi" path="res://src/enemies/dasher.tscn" id="3_miwik"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_f5j54"]

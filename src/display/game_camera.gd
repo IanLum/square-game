@@ -1,9 +1,13 @@
 extends Camera2D
+class_name GameCamera
 
 var shake_amount
 
 @onready var timer: Timer = $ShakeTimer
 var default_offset: Vector2 = offset
+
+func _ready():
+	Global.camera = self
 
 
 func _process(_delta):
