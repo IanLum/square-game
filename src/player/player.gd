@@ -71,6 +71,8 @@ func _unhandled_input(event):
 func take_damage(damage: int):
 	health -= damage
 	if health <= 0: die()
+	
+	Camera.shake(0.2, 5)
 	var tween = create_tween()
 	$ui/ScreenColor.color = Color(Color.RED, 0.3)
 	tween.tween_property($ui/ScreenColor, "color", Color.TRANSPARENT, 0.3)

@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://il08uiyd678g"]
+[gd_scene load_steps=8 format=3 uid="uid://il08uiyd678g"]
 
 [ext_resource type="Texture2D" uid="uid://7e6rh6e217m4" path="res://assets/tilemap.png" id="1_gmm0g"]
 [ext_resource type="PackedScene" uid="uid://cec8srgilxgmp" path="res://src/player/player.tscn" id="1_x1ik4"]
+[ext_resource type="PackedScene" uid="uid://d2sv6qqgckxxa" path="res://src/autoload/game_camera.tscn" id="3_c2bn4"]
 [ext_resource type="PackedScene" uid="uid://d1peiul00opbi" path="res://src/enemies/dasher.tscn" id="3_miwik"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_f5j54"]
@@ -35,9 +36,7 @@ layer_0/tile_data = PackedInt32Array(-1376290, 0, 0, -1310754, 0, 0, -1245218, 0
 [node name="player" parent="." instance=ExtResource("1_x1ik4")]
 position = Vector2(99, 147)
 
-[node name="Camera2D" type="Camera2D" parent="player"]
-position_smoothing_enabled = true
-position_smoothing_speed = 2.0
+[node name="game_camera" parent="player" instance=ExtResource("3_c2bn4")]
 
 [node name="runner" parent="." instance=ExtResource("3_miwik")]
 position = Vector2(-67, -39)

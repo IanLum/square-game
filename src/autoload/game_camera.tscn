@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://d2sv6qqgckxxa"]
+
+[ext_resource type="Script" path="res://src/autoload/game_camera.gd" id="1_smsu0"]
+
+[node name="game_camera" type="Camera2D"]
+script = ExtResource("1_smsu0")
+
+[node name="ShakeTimer" type="Timer" parent="."]
+one_shot = true
