@@ -70,3 +70,8 @@ func _unhandled_input(event):
 
 func take_damage(damage: int):
 	health -= damage
+	if health <= 0: die()
+
+
+func die():
+	get_tree().reload_current_scene()
