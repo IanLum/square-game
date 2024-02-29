@@ -1,10 +1,10 @@
 extends Enemy
 
-const DASH_SPEED = 600
+const DASH_SPEED = 500
 const Attack_Time = {
-	WINDUP = 0.5,
-	DURATION = 0.3,
-	ENDLAG = 0.8
+	WINDUP = 0.7,
+	DURATION = 0.4,
+	ENDLAG = 1.5
 }
 
 @onready var dash_timer = $DashTimer
