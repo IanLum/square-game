@@ -16,6 +16,7 @@ func attack():
 	$ColorRect.color = Color.MAGENTA
 	
 	var dir = to_local(player.global_position).normalized()
+	$AttackBox.set_deferred("monitoring", true)
 	velocity = dir * DASH_SPEED
 	dash_timer.start(Attack_Time.DURATION)
 	await dash_timer.timeout
@@ -24,6 +25,7 @@ func attack():
 
 
 func endlag():
+	$AttackBox.set_deferred("monitoring", false)
 	velocity = Vector2.ZERO
 	await get_tree().create_timer(Attack_Time.ENDLAG).timeout
 	attacking = false
