@@ -16,7 +16,7 @@ func _ready():
 
 func start(pos: Vector2, dir: Vector2):
 	position = pos
-	direction = dir
+	direction = dir.normalized()
 	look_at(direction)
 
 
