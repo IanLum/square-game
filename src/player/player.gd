@@ -15,6 +15,7 @@ const CHARGE_SLOW = 0.5
 @onready var charge_bar = $AttackCharge
 
 @onready var health = MAX_HEALTH: set = _set_health
+var blue_mode: bool = false: set = _set_mode
 var charge = 0: set = _set_charge
 
 
@@ -26,6 +27,12 @@ func _set_health(new_health):
 	var hbox = $ui/HBoxContainer
 	for i in hbox.get_child_count():
 		hbox.get_child(i).visible = health > i
+
+
+func _set_mode(mode):
+	blue_mode = mode
+	$ColorRect.color = Color.BLUE if blue_mode else Color.RED
+
 
 func _set_charge(new_charge):
 	charge = clamp(new_charge, 0, MAX_CHARGE)
@@ -76,9 +83,11 @@ func handle_movement(slowdown: float):
 func _unhandled_input(event):
 	if event.is_action_pressed("attack"):
 		attack()
+	elif event.is_action_pressed("swap_mode"):
+		blue_mode = !blue_mode
 
 
-## --- COMBAT ---
+## --- ACTION FUNCTIONS ---
 
 
 func attack():
