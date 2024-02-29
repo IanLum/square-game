@@ -12,6 +12,8 @@ radius = 87.0
 size = Vector2(12, 12)
 
 [node name="dasher" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 3
 motion_mode = 1
 wall_min_slide_angle = 0.0
 script = ExtResource("1_q5m6k")

@@ -25,9 +25,7 @@ func attack():
 
 func endlag():
 	velocity = Vector2.ZERO
-	$ColorRect.color = Color.BLUE
 	await get_tree().create_timer(Attack_Time.ENDLAG).timeout
-	$ColorRect.color = Color.MAGENTA
 	attacking = false
 
 

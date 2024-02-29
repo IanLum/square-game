@@ -1,13 +1,15 @@
 extends CharacterBody2D
 class_name Enemy
 
-@export var SPEED = 200
+@export var SPEED: int
+@export var MAX_HEALTH: int
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var re_nav_timer: Timer = $NavigationAgent2D/Timer
 @onready var attack_radius: Area2D = $AttackRadius
 @onready var player: CharacterBody2D = get_tree().current_scene.get_node("player")
 
+var health = MAX_HEALTH
 var attacking = false
 
 func _ready():
@@ -33,3 +35,9 @@ func find_path():
 
 func attack():
 	pass
+
+
+func take_damage(damage: int):
+	health -= damage
+	print('aaa')
+	modulate = Color(10,10,10,10)
