@@ -10,8 +10,14 @@ const MAX_CHARGE = 1.5
 const CHARGE_TIME = 1
 const CHARGE_SLOW = 0.5
 
+const DASH_SPEEDUP = 2
+const DASH_DURATION = 0.2
+const DASH_COOLDOWN = 0.4
+
 @onready var red_attack = preload("res://src/player/red_attack.tscn")
-@onready var attack_lag = $AttackLag
+@onready var attack_lag = $Timers/AttackLag
+@onready var dash_cd = $Timers/DashCooldown
+@onready var dash_timer = $Timers/DashTimer
 @onready var charge_bar = $AttackCharge
 
 @onready var health = MAX_HEALTH: set = _set_health
@@ -32,6 +38,7 @@ func _set_health(new_health):
 func _set_mode(mode):
 	blue_mode = mode
 	$ColorRect.color = Color.BLUE if blue_mode else Color.RED
+	charge_bar.visible = !blue_mode
 
 
 func _set_charge(new_charge):
@@ -49,34 +56,36 @@ func _ready():
 
 func _physics_process(delta):
 	var charging = handle_charge(delta)
-	var slowdown = handle_slowdown(charging)
-	handle_movement(slowdown)
+	handle_movement(charging)
 
 
 ## --- INPUT HANDLING ---
 
 
 func handle_charge(delta) -> bool:
+	if blue_mode: return false
 	if Input.is_action_pressed("utility") and charge != MAX_CHARGE:
 		charge += MAX_CHARGE / CHARGE_TIME * delta
 		return true
 	return false
 
 
-func handle_slowdown(charging: bool) -> float:
-	var speed_mod = 1
+func calculate_speed(charging: bool) -> float:
+	var speed = SPEED
 	if charging:
-		speed_mod *= CHARGE_SLOW
+		speed *= CHARGE_SLOW
 	if !attack_lag.is_stopped():
-		speed_mod *= ATTACK_SLOW
-	return speed_mod
+		speed *= ATTACK_SLOW
+	if !dash_timer.is_stopped():
+		speed *= DASH_SPEEDUP
+	return speed
 
 
-func handle_movement(slowdown: float):
+func handle_movement(charging: bool):
 	var direction = Vector2(
 		Input.get_axis("left", "right"), Input.get_axis("up", "down")
 	).normalized()
-	velocity = direction * SPEED * slowdown
+	velocity = direction * calculate_speed(charging)
 	move_and_slide()
 
 
@@ -85,6 +94,8 @@ func _unhandled_input(event):
 		attack()
 	elif event.is_action_pressed("swap_mode"):
 		blue_mode = !blue_mode
+	elif event.is_action_pressed("utility") and blue_mode:
+		dash()
 
 
 ## --- ACTION FUNCTIONS ---
@@ -102,6 +113,12 @@ func attack():
 	instance.field_time = 0.1
 	charge = 0
 	get_parent().add_child(instance)
+
+
+func dash():
+	if !dash_cd.is_stopped(): return
+	dash_timer.start(DASH_DURATION)
+	dash_cd.start(DASH_DURATION + DASH_COOLDOWN)
 
 
 func take_damage(damage: int):
