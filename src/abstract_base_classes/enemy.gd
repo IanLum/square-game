@@ -11,7 +11,6 @@ class_name Enemy
 
 @onready var health = MAX_HEALTH
 var attacking = false
-var dead = false
 
 func _ready():
 	re_nav_timer.timeout.connect(find_path)
@@ -19,7 +18,7 @@ func _ready():
 
 
 func _physics_process(_delta):
-	if dead or attacking:
+	if attacking:
 		return
 	elif not attack_radius.get_overlapping_bodies().is_empty():
 		attacking = true
