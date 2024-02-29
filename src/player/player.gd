@@ -128,7 +128,6 @@ func red_attack():
 		red_attack_scene,
 		RED_ATTACK.FIELD_TIME
 	)
-	print(instance)
 	instance.resize(1 + charge)
 	charge = 0
 	get_parent().add_child(instance)
