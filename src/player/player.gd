@@ -24,7 +24,7 @@ var charge = 0: set = _set_charge
 
 func _set_health(new_health):
 	health = clamp(new_health, 0, MAX_HEALTH)
-	var hbox = $ui/HBoxContainer
+	var hbox = $ui/ColorRect/HBoxContainer
 	for i in hbox.get_child_count():
 		hbox.get_child(i).visible = health > i
 
