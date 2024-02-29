@@ -2,6 +2,7 @@ extends Area2D
 class_name Attack
 
 @export var DAMAGE: int
+var direction: Vector2
 var field_time = 0
 
 signal hit(body)
@@ -15,7 +16,8 @@ func _ready():
 
 func start(pos: Vector2, dir: Vector2):
 	position = pos
-	look_at(dir)
+	direction = dir
+	look_at(direction)
 
 
 func enable():
