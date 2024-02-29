@@ -1,6 +1,7 @@
 extends CharacterBody2D
 class_name Player
 
+const MAX_HEALTH = 5
 const SPEED = 300
 const ATTACK_SLOW = 0.3
 const ATTACK_TIME = 0.2
@@ -9,12 +10,18 @@ const MAX_CHARGE = 1.5
 const CHARGE_TIME = 1
 const CHARGE_SLOW = 0.5
 
-
 @onready var red_attack = preload("res://src/player/red_attack.tscn")
 @onready var attack_lag = $AttackLag
 @onready var charge_bar = $AttackCharge
 
+@onready var health = MAX_HEALTH: set = _set_health
 var charge = 0: set = _set_charge
+
+func _set_health(new_health):
+	health = clamp(new_health, 0, MAX_HEALTH)
+	var hbox = $ui/HBoxContainer
+	for i in hbox.get_child_count():
+		hbox.get_child(i).visible = health > i
 
 func _set_charge(new_charge):
 	charge = clamp(new_charge, 0, MAX_CHARGE)
@@ -61,7 +68,5 @@ func _unhandled_input(event):
 		attack()
 
 
-func take_damage():
-	modulate = Color(0, 0.5)
-	await get_tree().create_timer(0.1).timeout
-	modulate = Color.WHITE
+func take_damage(damage: int):
+	health -= damage

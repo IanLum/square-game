@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://cec8srgilxgmp"]
+[gd_scene load_steps=4 format=3 uid="uid://cec8srgilxgmp"]
 
 [ext_resource type="Script" path="res://src/player/player.gd" id="1_beyo2"]
+[ext_resource type="PackedScene" uid="uid://hhfchlxg4hc6" path="res://src/display/ui.tscn" id="2_m116u"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_saue7"]
 size = Vector2(16, 16)
@@ -40,3 +41,5 @@ offset_right = 32.0
 offset_bottom = -13.0
 grow_horizontal = 2
 show_percentage = false
+
+[node name="ui" parent="." instance=ExtResource("2_m116u")]

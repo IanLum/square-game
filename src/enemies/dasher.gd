@@ -40,4 +40,4 @@ func _physics_process(delta):
 func _on_attack_box_body_entered(body: Player):
 	dash_timer.stop()
 	endlag()
-	body.take_damage()
+	body.take_damage(1)

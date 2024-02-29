@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://hhfchlxg4hc6"]
+
+[ext_resource type="PackedScene" uid="uid://bno8be3nrywfa" path="res://src/display/heart.tscn" id="1_0joe3"]
+[ext_resource type="Script" path="res://src/display/ui.gd" id="1_waxd7"]
+
+[node name="ui" type="CanvasLayer"]
+script = ExtResource("1_waxd7")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = -48.0
+offset_right = 160.0
+offset_bottom = -24.0
+grow_vertical = 0
+theme_override_constants/separation = 12
+
+[node name="heart" parent="HBoxContainer" instance=ExtResource("1_0joe3")]
+layout_mode = 2
+
+[node name="heart2" parent="HBoxContainer" instance=ExtResource("1_0joe3")]
+layout_mode = 2
+
+[node name="heart3" parent="HBoxContainer" instance=ExtResource("1_0joe3")]
+layout_mode = 2
+
+[node name="heart4" parent="HBoxContainer" instance=ExtResource("1_0joe3")]
+layout_mode = 2
+
+[node name="heart5" parent="HBoxContainer" instance=ExtResource("1_0joe3")]
+layout_mode = 2
