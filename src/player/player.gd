@@ -4,7 +4,7 @@ class_name Player
 const MAX_HEALTH = 5
 const SPEED = 300
 
-const ATTACK = {
+const RED_ATTACK = {
 	SLOWDOWN = 0.3,
 	DURATION = 0.2
 }
@@ -21,7 +21,7 @@ const DASH = {
 	COOLDOWN = 0.4
 }
 
-@onready var red_attack = preload("res://src/player/red_attack.tscn")
+@onready var red_attack_scene = preload("res://src/player/red_attack.tscn")
 @onready var attack_lag = $Timers/AttackLag
 @onready var dash_cd = $Timers/DashCooldown
 @onready var dash_timer = $Timers/DashTimer
@@ -57,7 +57,7 @@ func _set_charge(new_charge):
 
 
 func _ready():
-	attack_lag.wait_time = ATTACK.DURATION
+	attack_lag.wait_time = RED_ATTACK.DURATION
 	charge_bar.max_value = CHARGE.MAX
 
 
@@ -82,7 +82,7 @@ func calculate_speed(charging: bool) -> float:
 	if charging:
 		speed *= CHARGE.SLOWDOWN
 	if !attack_lag.is_stopped():
-		speed *= ATTACK.SLOWDOWN
+		speed *= RED_ATTACK.SLOWDOWN
 	if !dash_timer.is_stopped():
 		speed *= DASH.SPEEDUP
 	return speed
@@ -107,11 +107,15 @@ func _unhandled_input(event):
 
 ## --- ACTION FUNCTIONS ---
 
-
 func attack():
 	if !attack_lag.is_stopped(): return
-	attack_lag.start()
-	var instance: Attack = red_attack.instantiate()
+	if blue_mode: blue_attack()
+	else: red_attack()
+
+
+func red_attack():
+	attack_lag.start(RED_ATTACK.DURATION)
+	var instance: Attack = red_attack_scene.instantiate()
 	instance.start(
 		position,
 		(get_global_mouse_position() - global_position).normalized()
@@ -120,6 +124,10 @@ func attack():
 	instance.field_time = 0.1
 	charge = 0
 	get_parent().add_child(instance)
+
+
+func blue_attack():
+	pass
 
 
 func dash():
