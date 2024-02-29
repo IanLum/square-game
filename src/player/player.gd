@@ -117,11 +117,18 @@ func attack():
 
 func dash():
 	if !dash_cd.is_stopped(): return
+	set_collision_mask_value(3, false)
+	modulate = Color(1,1,1,0.2)
 	dash_timer.start(DASH_DURATION)
 	dash_cd.start(DASH_DURATION + DASH_COOLDOWN)
+	
+	await dash_timer.timeout
+	set_collision_mask_value(3, true)
+	modulate = Color(1,1,1,1)
 
 
 func take_damage(damage: int):
+	if !dash_timer.is_stopped(): return
 	health -= damage
 	if health <= 0: die()
 	
