@@ -3,16 +3,23 @@ class_name Player
 
 const MAX_HEALTH = 5
 const SPEED = 300
-const ATTACK_SLOW = 0.3
-const ATTACK_TIME = 0.2
 
-const MAX_CHARGE = 1.5
-const CHARGE_TIME = 1
-const CHARGE_SLOW = 0.5
+const ATTACK = {
+	SLOWDOWN = 0.3,
+	DURATION = 0.2
+}
 
-const DASH_SPEEDUP = 2
-const DASH_DURATION = 0.2
-const DASH_COOLDOWN = 0.4
+const CHARGE = {
+	MAX = 1.5,
+	SLOWDOWN = 0.5,
+	DURATION = 1.0
+}
+
+const DASH = {
+	SPEEDUP = 2,
+	DURATION = 0.2,
+	COOLDOWN = 0.4
+}
 
 @onready var red_attack = preload("res://src/player/red_attack.tscn")
 @onready var attack_lag = $Timers/AttackLag
@@ -42,7 +49,7 @@ func _set_mode(mode):
 
 
 func _set_charge(new_charge):
-	charge = clamp(new_charge, 0, MAX_CHARGE)
+	charge = clamp(new_charge, 0, CHARGE.MAX)
 	charge_bar.value = charge
 
 
@@ -50,8 +57,8 @@ func _set_charge(new_charge):
 
 
 func _ready():
-	attack_lag.wait_time = ATTACK_TIME
-	charge_bar.max_value = MAX_CHARGE
+	attack_lag.wait_time = ATTACK.DURATION
+	charge_bar.max_value = CHARGE.MAX
 
 
 func _physics_process(delta):
@@ -64,8 +71,8 @@ func _physics_process(delta):
 
 func handle_charge(delta) -> bool:
 	if blue_mode: return false
-	if Input.is_action_pressed("utility") and charge != MAX_CHARGE:
-		charge += MAX_CHARGE / CHARGE_TIME * delta
+	if Input.is_action_pressed("utility") and charge != CHARGE.MAX:
+		charge += CHARGE.MAX / CHARGE.DURATION * delta
 		return true
 	return false
 
@@ -73,11 +80,11 @@ func handle_charge(delta) -> bool:
 func calculate_speed(charging: bool) -> float:
 	var speed = SPEED
 	if charging:
-		speed *= CHARGE_SLOW
+		speed *= CHARGE.SLOWDOWN
 	if !attack_lag.is_stopped():
-		speed *= ATTACK_SLOW
+		speed *= ATTACK.SLOWDOWN
 	if !dash_timer.is_stopped():
-		speed *= DASH_SPEEDUP
+		speed *= DASH.SPEEDUP
 	return speed
 
 
@@ -119,8 +126,8 @@ func dash():
 	if !dash_cd.is_stopped(): return
 	set_collision_mask_value(3, false)
 	modulate = Color(1,1,1,0.2)
-	dash_timer.start(DASH_DURATION)
-	dash_cd.start(DASH_DURATION + DASH_COOLDOWN)
+	dash_timer.start(DASH.DURATION)
+	dash_cd.start(DASH.DURATION + DASH.COOLDOWN)
 	
 	await dash_timer.timeout
 	set_collision_mask_value(3, true)
