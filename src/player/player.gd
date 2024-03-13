@@ -2,7 +2,7 @@ extends CharacterBody2D
 class_name Player
 
 const MAX_HEALTH = 5
-const SPEED = 300
+const SPEED = 200
 
 const RED_ATTACK = {
 	SLOWDOWN = 0.3,
@@ -24,7 +24,7 @@ const CHARGE = {
 }
 
 const DASH = {
-	SPEEDUP = 2,
+	SPEEDUP = 3,
 	DURATION = 0.2,
 	COOLDOWN = 0.4
 }
