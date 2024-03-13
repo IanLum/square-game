@@ -10,11 +10,18 @@ class_name Enemy
 
 ## Added in every instantiation of an enemy
 @onready var color_rect: ColorRect = $ColorRect
+@onready var mark: ColorRect = $Mark
 @onready var attack_radius: Area2D = $AttackRadius
 
 @onready var DEFAULT_COLOR: Color = color_rect.color
 @onready var health = MAX_HEALTH
 var attacking = false
+var marked = false: set = _set_marked
+
+func _set_marked(new_marked):
+	marked = new_marked
+	mark.visible = marked
+
 
 func _ready():
 	re_nav_timer.timeout.connect(find_path)
