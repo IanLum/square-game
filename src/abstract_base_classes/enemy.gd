@@ -7,6 +7,7 @@ class_name Enemy
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var re_nav_timer: Timer = $NavigationAgent2D/Timer
 @onready var player: CharacterBody2D = get_tree().current_scene.get_node("player")
+@onready var marked_attack_scene: PackedScene = preload("res://src/player/marked_attack.tscn")
 
 ## Added in every instantiation of an enemy
 @onready var color_rect: ColorRect = $ColorRect
@@ -17,6 +18,7 @@ class_name Enemy
 @onready var health = MAX_HEALTH
 var attacking = false
 var marked = false: set = _set_marked
+
 
 func _set_marked(new_marked):
 	marked = new_marked
@@ -50,6 +52,7 @@ func attack():
 
 func take_damage(damage: int):
 	health -= damage
+	if marked: detonate_mark()
 	if health <= 0: die()
 	var blink = 0.05
 	for i in range(3):
@@ -57,6 +60,16 @@ func take_damage(damage: int):
 		await get_tree().create_timer(blink).timeout
 		color_rect.color = DEFAULT_COLOR
 		await get_tree().create_timer(blink).timeout
+
+
+func detonate_mark():
+	var instance: Attack = marked_attack_scene.instantiate()
+	instance.start(
+		position,
+		Vector2()
+	)
+	instance.field_time = 0.1
+	get_parent().add_child(instance)
 
 
 func die():
