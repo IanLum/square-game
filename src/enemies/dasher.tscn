@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://ctciru3hupije"]
+[gd_scene load_steps=6 format=3 uid="uid://ctciru3hupije"]
 
 [ext_resource type="Script" path="res://src/enemies/dasher.gd" id="1_q5m6k"]
 [ext_resource type="PackedScene" uid="uid://b33ct127hnjpg" path="res://src/abstract_base_classes/enemy.tscn" id="1_v0j24"]
@@ -6,9 +6,6 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_q5nso"]
 radius = 4.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_6rlvw"]
-radius = 87.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8i8wt"]
 size = Vector2(12, 12)
@@ -52,13 +49,9 @@ color = Color(0, 0, 1, 1)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="enemy"]
 shape = SubResource("CircleShape2D_q5nso")
 
-[node name="AttackRadius" type="Area2D" parent="enemy"]
-visible = false
-collision_layer = 0
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy/AttackRadius"]
-shape = SubResource("CircleShape2D_6rlvw")
+[node name="AttackRay" type="RayCast2D" parent="enemy"]
+target_position = Vector2(90, 0)
+collision_mask = 3
 
 [node name="AttackBox" type="Area2D" parent="enemy"]
 visible = false

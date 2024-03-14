@@ -12,7 +12,8 @@ class_name Enemy
 ## Added in every instantiation of an enemy
 @onready var color_rect: ColorRect = $ColorRect
 @onready var mark: ColorRect = $Mark
-@onready var attack_radius: Area2D = $AttackRadius
+#@onready var attack_radius: Area2D = $AttackRadius
+@onready var attack_ray: RayCast2D = $AttackRay
 
 @onready var DEFAULT_COLOR: Color = color_rect.color
 @onready var health = MAX_HEALTH
@@ -33,13 +34,20 @@ func _ready():
 func _physics_process(_delta):
 	if attacking:
 		return
-	elif not attack_radius.get_overlapping_bodies().is_empty():
+	elif check_attack_ray():
 		attacking = true
 		attack()
 	else:
 		var direction = to_local(nav_agent.get_next_path_position()).normalized()
 		velocity = direction * SPEED
 		move_and_slide()
+
+
+func check_attack_ray():
+	attack_ray.rotation = global_position.angle_to_point(player.global_position)
+	var col = attack_ray.get_collider()
+	if col == null: return false
+	return col.is_in_group("player")
 
 
 func find_path():
