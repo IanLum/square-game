@@ -16,6 +16,7 @@ func _ready():
 
 
 func attack():
+	velocity = Vector2.ZERO
 	var tween = create_tween()
 	tween.tween_property($ColorRect, "color", Color.WHITE, Attack_Time.WINDUP)
 	await tween.finished
@@ -41,6 +42,9 @@ func _physics_process(delta):
 	super(delta)
 	if not dash_timer.is_stopped():
 		move_and_collide(velocity * delta)
+	elif attacking and not knockback_timer.is_stopped():
+		velocity = knockback_vec
+		move_and_slide()
 
 
 func _on_attack_box_hit(_body):

@@ -11,3 +11,6 @@ wall_min_slide_angle = 0.0
 [node name="Timer" type="Timer" parent="NavigationAgent2D"]
 wait_time = 0.2
 autostart = true
+
+[node name="KnockbackTimer" type="Timer" parent="."]
+one_shot = true

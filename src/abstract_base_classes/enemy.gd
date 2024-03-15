@@ -6,20 +6,20 @@ class_name Enemy
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var re_nav_timer: Timer = $NavigationAgent2D/Timer
+@onready var knockback_timer: Timer = $KnockbackTimer
 @onready var player: CharacterBody2D = get_tree().current_scene.get_node("player")
 @onready var marked_attack_scene: PackedScene = preload("res://src/player/marked_attack.tscn")
 
 ## Added in every instantiation of an enemy
 @onready var color_rect: ColorRect = $ColorRect
 @onready var mark: ColorRect = $Mark
-#@onready var attack_radius: Area2D = $AttackRadius
 @onready var attack_ray: RayCast2D = $AttackRay
 
 @onready var DEFAULT_COLOR: Color = color_rect.color
 @onready var health = MAX_HEALTH
 var attacking = false
 var marked = false: set = _set_marked
-
+var knockback_vec: Vector2
 
 func _set_marked(new_marked):
 	marked = new_marked
@@ -33,13 +33,15 @@ func _ready():
 
 func _physics_process(_delta):
 	if attacking:
-		return
+		pass
 	elif check_attack_ray():
 		attacking = true
 		attack()
 	else:
 		var direction = to_local(nav_agent.get_next_path_position()).normalized()
 		velocity = direction * SPEED
+		if not knockback_timer.is_stopped():
+			velocity += knockback_vec
 		move_and_slide()
 
 
@@ -56,6 +58,11 @@ func find_path():
 
 func attack():
 	pass
+
+
+func knockback(dir: Vector2, strength: int, duration: float):
+	knockback_vec = dir.normalized() * strength
+	knockback_timer.start(duration)
 
 
 func take_damage(damage: int):
